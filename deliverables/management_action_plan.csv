@@ -1,0 +1,11 @@
+action,card,annual_impact_EGP,impact_type,confidence,additive,key_assumption
+Cap wholesale discounts at 30% (90% volume retention),Card 01/03,4345888.349999994,Gross profit,Medium,True,Customers keep 90% of the volume that is re-priced
+Release 30% of excess stock cash (sell-through / promote),Card 04,2187841.794022767,One-off cash,Medium,False,"Balance-sheet effect, not P&L"
+Reduce cost of poor quality by 20% (QC + rejects + rework),Card 07/08,1410555.0771176978,Cost saving,Medium,True,Depends on the reject-loss share assumption in Card 06
+Cut or fix loss-making marketing campaigns (50% of their net loss),Card 05,616505.1841790408,Gross profit,Low,True,Attributed revenue is an upper bound: validate with a holdout test
+Stop selling below cost (price floor at COGS),Card 01,447199.26,Gross profit,High,False,Overlaps the discount cap: not added to the total
+Recover 50% of stockout lost gross profit (replenishment plan),Card 04,355087.22280718957,Gross profit,Medium,True,"Lost units are recoverable demand, not lost customers"
+Win back 15% of lapsed B2C customers,Card 02,338489.7645,Gross profit,Medium,True,Consent-based outreach to the saved win-back list
+Fix size charts: cut Size/fit refunds by 30%,Card 07,337893.06899999996,Revenue protected,Medium,False,"Refund value, not profit: not added"
+Relieve Sewing/Finishing bottlenecks (50% of their shortfall),Card 06,179905.54566722372,Gross profit,Medium,True,Shortfall units can be sold
+Move volume away from the 2 late suppliers,Card 09,0.0,Operational (risk),High,False,Avoids late POs; its EGP value is quantified by the Risk Radar in Part C
