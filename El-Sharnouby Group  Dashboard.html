@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El-Sharnouby Group | Executive Dashboard</title>
+<style>
+:root{--bg:#eef1f6;--panel:#fff;--ink:#14213d;--mute:#5b6784;--line:#dde3ee;--blue:#2f4ba0;--green:#1f8a70;--red:#c0392b;--amber:#d98e04;--hero:#14213d;--heroink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1424;--panel:#161f35;--ink:#e8ecf6;--mute:#9aa6c4;--line:#27334f;--blue:#8fa6ee;--green:#4cc4a2;--red:#ef7b6e;--amber:#f0b441;--hero:#0a101e}}
+:root[data-theme="dark"]{--bg:#0d1424;--panel:#161f35;--ink:#e8ecf6;--mute:#9aa6c4;--line:#27334f;--blue:#8fa6ee;--green:#4cc4a2;--red:#ef7b6e;--amber:#f0b441;--hero:#0a101e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{background:var(--hero);color:var(--heroink);padding:22px 20px 70px}
+.wrap{max-width:1120px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.brand{font-size:.75rem;letter-spacing:.18em;opacity:.7;text-transform:uppercase}
+h1{margin:4px 0 0;font-size:1.7rem;line-height:1.2}
+.pills{display:flex;gap:6px}
+.pills button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;padding:6px 14px;border-radius:99px;font:inherit;font-size:.85rem;cursor:pointer}
+.pills button[aria-pressed="true"]{background:#fff;color:#14213d;font-weight:600}
+main{max-width:1120px;margin:-48px auto 40px;padding:0 16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi,.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.kpi small{color:var(--mute);display:block;font-size:.8rem}
+.kpi b{font-size:1.8rem;display:block;line-height:1.2;margin:2px 0}
+.up{color:var(--green)}.dn{color:var(--red)}.kpi span{font-size:.82rem}
+nav{display:flex;gap:6px;margin:18px 0 14px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:4;overflow-x:auto}
+nav button{border:1px solid var(--line);background:var(--panel);color:var(--mute);padding:8px 16px;border-radius:10px;font:inherit;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+nav button:focus-visible,.pills button:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+section{display:none}section.on{display:block}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:860px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}}
+.card h2{margin:0;font-size:1rem}.card p{margin:2px 0 10px;color:var(--mute);font-size:.85rem}
+.so{margin:10px 0 0;padding:8px 12px;border-radius:8px;background:var(--bg);font-size:.88rem}
+.cv{position:relative;height:270px}.cv.tall{height:310px}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+.chips .kpi b{font-size:1.5rem}
+footer{color:var(--mute);font-size:.8rem;text-align:center;padding:0 16px 24px}
+</style>
+</head>
+<body>
+<header><div class="wrap top"><div><div class="brand">HVIA Data &amp; AI Solutions | Task 02</div><h1>El-Sharnouby Group: Executive Dashboard</h1></div>
+<div class="pills" role="group" aria-label="Fiscal year"><button aria-pressed="false" data-fy="FY24">FY24</button><button aria-pressed="false" data-fy="FY25">FY25</button><button aria-pressed="true" data-fy="FY26">FY26</button></div></div></header>
+<main>
+<div class="kpis" id="kpis"></div>
+<nav role="tablist" id="tabs"><button role="tab" data-t="t1" aria-selected="true">Overview</button><button role="tab" data-t="t2" aria-selected="false">Growth &amp; Marketing</button><button role="tab" data-t="t3" aria-selected="false">Operations</button><button role="tab" data-t="t4" aria-selected="false">Supply Risk Radar</button></nav>
+
+<section id="t1" class="on"><div class="grid">
+<div class="card wide"><h2>Net sales and gross margin by month</h2><p>EGP millions; margin on the right axis</p><div class="cv tall"><canvas id="c1" role="img" aria-label="Monthly net sales and gross margin"></canvas></div><div class="so" id="s1"></div></div>
+<div class="card"><h2>Share of sales vs share of gross profit</h2><p>Why volume is not value</p><div class="cv"><canvas id="c2" role="img" aria-label="Channel share of sales and profit"></canvas></div><div class="so" id="s2"></div></div>
+<div class="card"><h2>Channel growth</h2><p>Net sales growth vs prior fiscal year (%)</p><div class="cv"><canvas id="c5" role="img" aria-label="Channel growth"></canvas></div><div class="so" id="s5"></div></div>
+</div></section>
+
+<section id="t2"><div class="chips" id="ch2"></div><div class="grid">
+<div class="card"><h2>Marketing contribution by platform</h2><p>Attributed gross profit minus spend, EGP millions</p><div class="cv"><canvas id="c3" role="img" aria-label="Contribution by platform"></canvas></div><div class="so" id="s3"></div></div>
+<div class="card"><h2>Reported ROAS by platform</h2><p>Attributed revenue per EGP spent (an upper bound)</p><div class="cv"><canvas id="c4" role="img" aria-label="ROAS by platform"></canvas></div><div class="so" id="s4"></div></div>
+</div></section>
+
+<section id="t3"><div class="chips" id="ch3"></div><div class="grid">
+<div class="card"><h2>Where production delay comes from</h2><p>Total delay days by bottleneck stage</p><div class="cv"><canvas id="c6" role="img" aria-label="Delay by bottleneck"></canvas></div><div class="so" id="s6"></div></div>
+<div class="card"><h2>Supplier on-time-in-full rate</h2><p>% of purchase orders on time and 97%+ accepted</p><div class="cv"><canvas id="c7" role="img" aria-label="Supplier OTIF"></canvas></div><div class="so" id="s7"></div></div>
+</div></section>
+
+<section id="t4"><div class="chips" id="ch4"></div><div class="grid">
+<div class="card wide"><h2>Expected gross profit at risk per late delivery</h2><p>Chance late x days late x gross profit per day of delay (EGP). Red = top tier</p><div class="cv tall"><canvas id="c8" role="img" aria-label="Material risk radar"></canvas></div><div class="so" id="s8"></div></div>
+<div class="card"><h2>Proof on unseen purchase orders</h2><p>% arriving within the planned lead time</p><div class="cv"><canvas id="c9" role="img" aria-label="Lead time coverage"></canvas></div><div class="so" id="s9"></div></div>
+<div class="card"><h2>Action plan</h2><p>Annual gross profit impact, EGP thousands</p><div class="cv"><canvas id="c10" role="img" aria-label="Action plan"></canvas></div><div class="so" id="s10"></div></div>
+</div></section>
+</main>
+<footer>Modelled training data, FY = October to September. All figures computed from the 20 source tables; assumptions are documented in the project notebook.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const D={"monthly":{"l":["2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09"],"sales":[9.66,10.77,12.28,9.17,8.8,10.28,11.49,11.42,11.79,12.72,11.61,9.53,11.08,12.01,14.6,10.41,8.69,11.1,12.39,13.13,12.79,13.61,13.25,10.45,10.04,11.34,15.64,10.62,9.52,12.16,12.26,14.16,13.69,14.52,13.31,11.06],"margin":[16.1,15.9,15.7,15.9,15.7,15.6,14.7,14.7,14.8,14.7,14.7,15.5,16.0,15.7,15.9,15.7,15.7,15.4,14.7,15.0,15.3,15.0,15.0,15.0,16.2,15.9,16.0,16.2,16.3,15.4,15.6,15.1,14.8,14.7,15.7,15.3]},"fy":{"FY24":{"sales":129.5,"gp":19.81,"margin":15.3,"cust":8225},"FY25":{"sales":143.5,"gp":22.02,"margin":15.3,"cust":16515},"FY26":{"sales":148.3,"gp":23.06,"margin":15.6,"cust":23736}},"chan":{"Online":{"sales_share":7.7,"gp_share":17.5,"margin":34.9,"g25":26.6,"g26":26.1},"Retail":{"sales_share":7.0,"gp_share":16.8,"margin":37.0,"g25":2.3,"g26":-6.8},"Wholesale":{"sales_share":85.3,"gp_share":65.7,"margin":11.9,"g25":10.4,"g26":2.2}},"plat":{"l":["Meta","Influencer","TikTok","Google","WhatsApp / CRM"],"roas":[4.37,1.06,4.88,10.27,66.96],"contrib":[-1.68,-1.21,-0.56,1.8,16.21],"spend":[5.4,1.5,2.2,3.9,1.5]},"loss":261,"nc":420,"bott":{"l":["Sewing","Finishing","Packing","Cutting","Printing"],"v":[945,582,264,247,194]},"late":16.3,"sup":{"l":["SUP09","SUP04","SUP12","SUP06","SUP11","SUP08","SUP07","SUP02","SUP05","SUP01","SUP03","SUP10"],"otif":[27,34,58,59,60,61,61,62,62,62,63,63]},"radar":{"l":["M006 Sewing Thread","M009 Poly Bag","M007 Neck Label","M008 Care Label","M011 Water-Based Ink","M001 Single Jersey Co","M002 Single Jersey Co","M012 Heat Transfer Fi"],"v":[95342,76600,65994,60417,30765,23870,21733,18836],"tier":["RED","RED","RED","AMBER","AMBER","AMBER","GREEN","GREEN"],"late":[44,39,41,26,34,38,37,43]},"act":{"l":["Cap wholesale discount 30%","Cut cost of poor quality 20%","Fix loss-making campaigns","Recover stockout losses","Win back lapsed customers","Relieve Sewing/Finishing"],"v":[4346,1411,617,355,338,180]},"now":20,"lines":30,"otif":56,"cov":[51,53,93]};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const charts={},done=new Set();let FY='FY26',TAB='t1';
+const fmt=(x,d=1)=>x.toLocaleString('en-US',{maximumFractionDigits:d});
+function mk(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart($('#'+id),cfg)}
+function opts(o={}){return Object.assign({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}},o)}
+function sc(extra={}){return Object.assign({x:{grid:{display:false}},y:{grid:{color:css('--line')},border:{display:false}}},extra)}
+function kpis(){const f=D.fy[FY],p=D.fy['FY'+(parseInt(FY.slice(2))-1)];
+const dl=(a,b)=>p?`<span class="${a>=b?'up':'dn'}">${a>=b?'+':''}${fmt((a/b-1)*100)}% vs prior FY</span>`:'<span>first year in data</span>';
+$('#kpis').innerHTML=[['Net sales',fmt(f.sales)+'M EGP',p&&dl(f.sales,p.sales)],['Gross profit',fmt(f.gp,2)+'M EGP',p&&dl(f.gp,p.gp)],['Gross margin',f.margin+'%',p?`<span>${(f.margin-p.margin>=0?'+':'')}${fmt(f.margin-p.margin)} pts vs prior FY</span>`:'<span>&nbsp;</span>'],['Active customers',fmt(f.cust,0),p&&dl(f.cust,p.cust)]].map(k=>`<div class="kpi"><small>${k[0]}</small><b>${k[1]}</b>${k[2]||'<span>first year in data</span>'}</div>`).join('')}
+function chips(id,a){$(id).innerHTML=a.map(k=>`<div class="kpi"><small>${k[0]}</small><b style="color:${k[2]}">${k[1]}</b><span>${k[3]}</span></div>`).join('')}
+const T=(id,t)=>$(id).innerHTML=t;
+function draw(t){if(done.has(t))return;done.add(t);const B=css('--blue'),G=css('--green'),R=css('--red'),A=css('--amber');
+Chart.defaults.color=css('--mute');Chart.defaults.font.family='system-ui,Segoe UI,Arial';
+if(t=='t1'){const m=D.monthly;
+mk('c1',{data:{labels:m.l,datasets:[{type:'bar',label:'Net sales (M EGP)',data:m.sales,backgroundColor:B,borderRadius:3,yAxisID:'y'},{type:'line',label:'Gross margin %',data:m.margin,borderColor:A,backgroundColor:A,pointRadius:2,tension:.3,yAxisID:'y2'}]},options:opts({plugins:{legend:{display:true,position:'bottom'}},scales:sc({y2:{position:'right',min:10,max:20,grid:{display:false},border:{display:false},ticks:{callback:v=>v+'%'}}})})});
+T('#s1','Sales peak every December and margin stays near 15%: growth comes from volume, not profitability.');
+const c=D.chan,k=Object.keys(c);
+mk('c2',{type:'bar',data:{labels:k,datasets:[{label:'% of net sales',data:k.map(x=>c[x].sales_share),backgroundColor:B,borderRadius:4},{label:'% of gross profit',data:k.map(x=>c[x].gp_share),backgroundColor:G,borderRadius:4}]},options:opts({plugins:{legend:{display:true,position:'bottom'},tooltip:{callbacks:{afterBody:i=>'Gross margin '+c[k[i[0].dataIndex]].margin+'%'}}},scales:sc()})});
+T('#s2',`Wholesale is ${c.Wholesale.sales_share}% of sales but ${c.Wholesale.gp_share}% of gross profit, at only ${c.Wholesale.margin}% margin versus ${c.Retail.margin}% in Retail.`);
+mk('c5',{type:'bar',data:{labels:k,datasets:[{label:'FY25',data:k.map(x=>c[x].g25),backgroundColor:css('--mute'),borderRadius:4},{label:'FY26',data:k.map(x=>c[x].g26),backgroundColor:k.map(x=>c[x].g26<0?R:B),borderRadius:4}]},options:opts({plugins:{legend:{display:true,position:'bottom'}},scales:sc({y:{grid:{color:css('--line')},border:{display:false},ticks:{callback:v=>v+'%'}}})})});
+T('#s5',`Online grew ${c.Online.g26}% in FY26 while the Retail store shrank ${Math.abs(c.Retail.g26)}%.`)}
+if(t=='t2'){const p=D.plat,neg=p.l.filter((_,i)=>p.contrib[i]<0);
+chips('#ch2',[['Campaigns losing money',D.loss+' of '+D.nc,R,'after product margin'],['Total marketing contribution',fmt(p.contrib.reduce((a,b)=>a+b,0),1)+'M EGP',p.contrib.reduce((a,b)=>a+b,0)<0?R:G,'all platforms combined'],['Platforms below break-even',neg.length+' of '+p.l.length,A,neg.join(', ')]]);
+mk('c3',{type:'bar',data:{labels:p.l,datasets:[{data:p.contrib,backgroundColor:p.contrib.map(v=>v<0?R:G),borderRadius:4}]},options:opts({indexAxis:'y',scales:{x:{grid:{color:css('--line')},border:{display:false}},y:{grid:{display:false}}}})});
+T('#s3',neg.join(', ')+' destroy profit once product margin is applied. Only the remaining platforms earn more than they cost.');
+mk('c4',{type:'bar',data:{labels:p.l,datasets:[{data:p.roas,backgroundColor:B,borderRadius:4}]},options:opts({plugins:{legend:{display:false},tooltip:{callbacks:{afterLabel:i=>'Spend '+p.spend[i.dataIndex]+'M EGP'}}},scales:sc()})});
+T('#s4','High ROAS on WhatsApp / CRM mostly reaches existing customers: validate with a holdout test before moving budget.')}
+if(t=='t3'){const b=D.bott,tot=b.v.reduce((a,c)=>a+c,0),s=D.sup,lo=s.l.slice(0,2);
+chips('#ch3',[['Production orders finishing late',D.late+'%',R,'every one has a named bottleneck'],['Purchase orders on time and in full',D.otif+'%',A,'all suppliers, 3 years'],['Worst suppliers',lo.join(' + '),R,'OTIF '+s.otif.slice(0,2).join('% and ')+'%']]);
+mk('c6',{type:'bar',data:{labels:b.l,datasets:[{data:b.v,backgroundColor:b.v.map((v,i)=>i<2?R:B),borderRadius:4}]},options:opts({scales:sc()})});
+T('#s6',`${b.l[0]} and ${b.l[1]} are ${Math.round((b.v[0]+b.v[1])/tot*100)}% of delay days. Lines perform almost identically: the stage, not the line, is the lever.`);
+mk('c7',{type:'bar',data:{labels:s.l,datasets:[{data:s.otif,backgroundColor:s.otif.map((v,i)=>i<2?R:G),borderRadius:4}]},options:opts({scales:sc({y:{min:0,max:100,grid:{color:css('--line')},border:{display:false},ticks:{callback:v=>v+'%'}}})})});
+T('#s7',`${lo.join(' and ')} deliver on time and in full only about 3 times in 10, against roughly 6 in 10 for the rest.`)}
+if(t=='t4'){const r=D.radar;
+chips('#ch4',[['Order lines already inside lead time',D.now+' of '+D.lines,R,'next 3 months: expedite today'],['Red-tier materials',r.tier.filter(x=>x=='RED').length,R,r.l.slice(0,3).map(x=>x.split(' ')[0]).join(', ')],['Lead-time coverage',D.cov[2]+'%',G,'vs '+D.cov[0]+'% with master data']]);
+mk('c8',{type:'bar',data:{labels:r.l,datasets:[{data:r.v,backgroundColor:r.tier.map(x=>x=='RED'?R:x=='AMBER'?A:G),borderRadius:4}]},options:opts({indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{afterLabel:i=>r.late[i.dataIndex]+'% of deliveries late'}}},scales:{x:{grid:{color:css('--line')},border:{display:false}},y:{grid:{display:false}}}})});
+T('#s8','Thread, poly bags and labels go into every product, so one late delivery stops the whole range.');
+mk('c9',{type:'bar',data:{labels:['Master-data lead time','Radar median','Radar p90'],datasets:[{data:D.cov,backgroundColor:[css('--mute'),A,G],borderRadius:4}]},options:opts({scales:sc({y:{min:0,max:100,grid:{color:css('--line')},border:{display:false},ticks:{callback:v=>v+'%'}}})})});
+T('#s9','Learned on orders before Oct 2025, tested on later ones: the Radar lead time holds 93% of the time.');
+const a=D.act;mk('c10',{type:'bar',data:{labels:a.l,datasets:[{data:a.v,backgroundColor:B,borderRadius:4}]},options:opts({indexAxis:'y',scales:{x:{grid:{color:css('--line')},border:{display:false}},y:{grid:{display:false}}}})});
+T('#s10','Six non-overlapping actions add about '+fmt(a.v.reduce((x,y)=>x+y,0)/1e3)+'M EGP of gross profit a year.')}}
+function show(t){TAB=t;$$('section').forEach(s=>s.classList.toggle('on',s.id==t));$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t==t));draw(t)}
+$$('#tabs button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+$$('.pills button').forEach(b=>b.onclick=()=>{FY=b.dataset.fy;$$('.pills button').forEach(x=>x.setAttribute('aria-pressed',x==b));kpis()});
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{done.clear();draw(TAB)});
+kpis();draw('t1');
+</script>
+</body>
+</html>
